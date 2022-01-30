@@ -1,0 +1,13 @@
+#This short script takes a certain file name from one of the step files in the UnsteadyFlowSolvers.jl package, 
+#and extracts it into a main folder 
+
+import os, shutil, re, glob
+
+if not os.path.exists('FourierCoeffsFolder'): #The new Folder Path can be named here
+    os.makedirs('FourierCoeffsFolder') #It is only created if there is none
+        
+for filename in glob.glob("Step Files/*/FourierCoeffs"): #The path to whatever file you want in the step files
+    t = re.search('Step Files/(.+?)/FourierCoeffs', filename) #This line extracts from the filename the timestep
+    if t:
+        time = t.group(1) 
+    shutil.copy(filename,'FourierCoeffsFolder/'+time+'.txt') #This line copies the required file to the new folder
